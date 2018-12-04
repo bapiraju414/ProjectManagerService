@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Web.Http;
 using ProjectManager.DataLayer;
 using ProjectManger.BusinessLayer;
+using static ProjectManger.BusinessLayer.ProjectManagerBL;
 
 namespace ProjectManager.ServiceLayer
 {
@@ -30,18 +31,49 @@ namespace ProjectManager.ServiceLayer
         public IEnumerable<GetUsers_Result> GetUsers()
         {
             return pbl.GetAllUsers();
-        }       
+        }
 
-       [Route("api/AddTask")]
-        public void Post([FromBody]Task item)
+        [Route("api/GetUserById/{id:int}")]
+        public UserSet GetUserById(int id)
+        {          
+            
+            return pbl.GetUserById(id); ;
+
+        }
+
+        [Route("api/GetParentTask")]
+        public IEnumerable<ParentTask> GetParentTask()
         {
-            pbl.AddTask(item);
+            return pbl.GetParentTask();
+        }
+
+        [Route("api/AddTask")]
+        public void Post([FromBody]Taskset item)
+        {
+            Task task = new Task();
+            task.TaskName = item.TaskName;
+            task.Parent_ID = item.Parent_ID;
+            task.Priority = item.Priority;
+            task.Project_ID = item.Project_ID;
+            task.Priority = item.Priority;
+            task.Start_Date = item.Start_Date;
+            task.End_Date = item.End_Date;
+            task.Status = item.Status;
+            pbl.AddTask(task);
+            pbl.UpdateUserTaskId(item.User_ID, item.Task_ID);
         }
 
         [Route("api/AddProject")]
-        public void Post([FromBody]Project item)
+        public void Post([FromBody]Projectset item)
         {
-            pbl.AddProjects(item);
+            Project project = new Project();
+            project.ProjectName = item.ProjectName;
+            project.Start_Date = item.Start_Date;
+            project.End_Date = item.End_Date;
+            project.Priority = item.Priority;
+            project.Status = item.Status;
+            int projectid= pbl.AddProjects(project);
+            pbl.UpdateUserProjectId(item.User_ID, projectid);
         }
 
 

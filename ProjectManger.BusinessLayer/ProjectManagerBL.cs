@@ -21,6 +21,39 @@ namespace ProjectManger.BusinessLayer
             pmdb = projectManager;
         }
 
+
+        public partial class UserSet
+        {
+            public int userId { get; set; }
+            public string firstName { get; set; }
+            public string lastName { get; set; }
+            public Nullable<int> employeeId { get; set; }
+            public Nullable<int> projectId { get; set; }
+            public Nullable<int> taskId { get; set; }
+        }
+        public partial class Projectset
+        {
+            public int Project_ID { get; set; }
+            public string ProjectName { get; set; }
+            public Nullable<System.DateTime> Start_Date { get; set; }
+            public Nullable<System.DateTime> End_Date { get; set; }
+            public Nullable<int> Priority { get; set; }
+            public bool Status { get; set; }
+            public int User_ID { get; set; }
+        }
+
+        public partial class Taskset
+        {
+            public int Task_ID { get; set; }
+            public Nullable<int> Parent_ID { get; set; }
+            public Nullable<int> Project_ID { get; set; }
+            public string TaskName { get; set; }
+            public Nullable<System.DateTime> Start_Date { get; set; }
+            public Nullable<System.DateTime> End_Date { get; set; }
+            public Nullable<int> Priority { get; set; }
+            public bool Status { get; set; }
+            public int User_ID { get; set; }
+        }
         public int AddTask(Task item)
         {
             int result = -1;
@@ -39,10 +72,17 @@ namespace ProjectManger.BusinessLayer
 
         public int AddProjects(Project item)
         {
-            int result = -1;
+            int projectid = -1;
+            item.Project_ID = -1;
             pmdb.Projects.Add(item);
-            result = pmdb.SaveChanges();
-            return result;
+            pmdb.SaveChanges();
+            projectid = item.Project_ID;
+            return projectid;
+        }
+
+        public List<ParentTask> GetParentTask()
+        {
+            return pmdb.ParentTasks.ToList();
         }
 
         public List<GetTasks_Result> GetAllTasks()
@@ -72,6 +112,19 @@ namespace ProjectManger.BusinessLayer
             return getUsersResult;
         }
 
+        public UserSet GetUserById(int Id)
+        {
+            UserSet userset = new UserSet();
+            userset = pmdb.Users.Where(x => x.userId == Id).Select(t => new UserSet()
+            {
+                userId = t.userId,
+                firstName = t.firstName,
+                lastName = t.lastName,
+                employeeId = t.employeeId,
+               
+            }).FirstOrDefault();
+            return userset;
+        }
         public int UpdateTask(Task task)
         {
 
@@ -94,17 +147,43 @@ namespace ProjectManger.BusinessLayer
         {
 
             int result = -1;
-            var user = pmdb.Users.Where(t => t.User_ID == User.User_ID).FirstOrDefault();
+            var user = pmdb.Users.Where(t => t.userId == User.userId).FirstOrDefault();
             if (user != null)
             {
-                user.FirstName = User.FirstName;
-                user.LastName = User.LastName;
-                user.Employee_Id = User.Employee_Id;               
+                user.firstName = User.firstName;
+                user.lastName = User.lastName;
+                user.employeeId = User.employeeId;               
                 result = pmdb.SaveChanges();
             }
             return result;
         }
-        
+
+        public int UpdateUserProjectId(int userId,int ProjectId)
+        {
+
+            int result = -1;
+            var user = pmdb.Users.Where(t => t.userId == userId).FirstOrDefault();
+            if (user != null)
+            {
+                user.projectId = ProjectId;                
+                result = pmdb.SaveChanges();
+            }
+            return result;
+        }
+
+        public int UpdateUserTaskId(int userId, int TaskId)
+        {
+
+            int result = -1;
+            var user = pmdb.Users.Where(t => t.userId == userId).FirstOrDefault();
+            if (user != null)
+            {
+                user.taskId = TaskId;
+                result = pmdb.SaveChanges();
+            }
+            return result;
+        }
+
         public int UpdateProject(Project Project)
         {
 
@@ -126,7 +205,7 @@ namespace ProjectManger.BusinessLayer
         {
 
             int result = -1;
-            var user = pmdb.Users.Where(t => t.User_ID == id).FirstOrDefault();
+            var user = pmdb.Users.Where(t => t.userId == id).FirstOrDefault();
             if (user != null)
             {
                 pmdb.Users.Remove(user);
@@ -137,3 +216,4 @@ namespace ProjectManger.BusinessLayer
 
     }
 }
+

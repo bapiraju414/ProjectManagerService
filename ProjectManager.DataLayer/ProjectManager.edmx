@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="ProjectManagerDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="ProjectManagerDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="ParentTask">
           <Key>
             <PropertyRef Name="Parent_ID" />
@@ -38,14 +38,14 @@
         </EntityType>
         <EntityType Name="User">
           <Key>
-            <PropertyRef Name="User_ID" />
+            <PropertyRef Name="userId" />
           </Key>
-          <Property Name="User_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="FirstName" Type="varchar" MaxLength="100" />
-          <Property Name="LastName" Type="varchar" MaxLength="100" />
-          <Property Name="Employee_Id" Type="int" />
-          <Property Name="Project_Id" Type="int" />
-          <Property Name="Task_Id" Type="int" />
+          <Property Name="userId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="firstName" Type="varchar" MaxLength="100" />
+          <Property Name="lastName" Type="varchar" MaxLength="100" />
+          <Property Name="employeeId" Type="int" />
+          <Property Name="projectId" Type="int" />
+          <Property Name="taskId" Type="int" />
         </EntityType>
         <Function Name="GetProjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="GetTasks" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
@@ -56,7 +56,8 @@
           <EntitySet Name="Task" EntityType="Self.Task" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ProjectManagerDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -66,6 +67,17 @@
           </Key>
           <Property Name="Parent_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Parent_Task" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Project">
+          <Key>
+            <PropertyRef Name="Project_ID" />
+          </Key>
+          <Property Name="Project_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProjectName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Start_Date" Type="DateTime" Precision="3" />
+          <Property Name="End_Date" Type="DateTime" Precision="3" />
+          <Property Name="Priority" Type="Int32" />
+          <Property Name="Status" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="Task">
           <Key>
@@ -82,27 +94,27 @@
         </EntityType>
         <EntityType Name="User">
           <Key>
-            <PropertyRef Name="User_ID" />
+            <PropertyRef Name="userId" />
           </Key>
-          <Property Name="User_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="FirstName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="LastName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Employee_Id" Type="Int32" />
-          <Property Name="Project_Id" Type="Int32" />
-          <Property Name="Task_Id" Type="Int32" />
+          <Property Name="userId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="firstName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="lastName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="employeeId" Type="Int32" />
+          <Property Name="projectId" Type="Int32" />
+          <Property Name="taskId" Type="Int32" />
         </EntityType>
         <EntityContainer Name="ProjectManagerDBEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="ParentTasks" EntityType="Self.ParentTask" />
+          <EntitySet Name="Projects" EntityType="Self.Project" />
           <EntitySet Name="Tasks" EntityType="Self.Task" />
           <EntitySet Name="Users" EntityType="Self.User" />
           <FunctionImport Name="GetProjects" ReturnType="Collection(ProjectManagerDBModel.GetProjects_Result)" />
           <FunctionImport Name="GetTasks" ReturnType="Collection(ProjectManagerDBModel.GetTasks_Result)" />
           <FunctionImport Name="GetUsers" ReturnType="Collection(ProjectManagerDBModel.GetUsers_Result)" />
-          <EntitySet Name="Projects" EntityType="ProjectManagerDBModel.Project" />
         </EntityContainer>
         <ComplexType Name="GetProjects_Result">
           <Property Type="Int32" Name="Project_ID" Nullable="false" />
-          <Property Type="String" Name="Project" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="ProjectName" Nullable="true" MaxLength="100" />
           <Property Type="DateTime" Name="Start_Date" Nullable="true" Precision="23" />
           <Property Type="DateTime" Name="End_Date" Nullable="true" Precision="23" />
           <Property Type="Int32" Name="Priority" Nullable="true" />
@@ -119,22 +131,11 @@
           <Property Type="Boolean" Name="Status" Nullable="false" />
         </ComplexType>
         <ComplexType Name="GetUsers_Result">
-          <Property Type="Int32" Name="User_ID" Nullable="false" />
-          <Property Type="String" Name="FirstName" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="LastName" Nullable="true" MaxLength="100" />
-          <Property Type="Int32" Name="Employee_Id" Nullable="true" />
+          <Property Type="Int32" Name="userId" Nullable="false" />
+          <Property Type="String" Name="firstName" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="lastName" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="employeeId" Nullable="true" />
         </ComplexType>
-        <EntityType Name="Project">
-          <Key>
-            <PropertyRef Name="Project_ID" />
-          </Key>
-          <Property Name="Project_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ProjectName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Start_Date" Type="DateTime" Precision="3" />
-          <Property Name="End_Date" Type="DateTime" Precision="3" />
-          <Property Name="Priority" Type="Int32" />
-          <Property Name="Status" Type="Boolean" Nullable="false" />
-        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -146,6 +147,18 @@
               <MappingFragment StoreEntitySet="ParentTask">
                 <ScalarProperty Name="Parent_ID" ColumnName="Parent_ID" />
                 <ScalarProperty Name="Parent_Task" ColumnName="Parent_Task" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Projects">
+            <EntityTypeMapping TypeName="ProjectManagerDBModel.Project">
+              <MappingFragment StoreEntitySet="Project">
+                <ScalarProperty Name="Project_ID" ColumnName="Project_ID" />
+                <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
+                <ScalarProperty Name="Start_Date" ColumnName="Start_Date" />
+                <ScalarProperty Name="End_Date" ColumnName="End_Date" />
+                <ScalarProperty Name="Priority" ColumnName="Priority" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -166,12 +179,12 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="ProjectManagerDBModel.User">
               <MappingFragment StoreEntitySet="User">
-                <ScalarProperty Name="User_ID" ColumnName="User_ID" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="Employee_Id" ColumnName="Employee_Id" />
-                <ScalarProperty Name="Project_Id" ColumnName="Project_Id" />
-                <ScalarProperty Name="Task_Id" ColumnName="Task_Id" />
+                <ScalarProperty Name="userId" ColumnName="userId" />
+                <ScalarProperty Name="firstName" ColumnName="firstName" />
+                <ScalarProperty Name="lastName" ColumnName="lastName" />
+                <ScalarProperty Name="employeeId" ColumnName="employeeId" />
+                <ScalarProperty Name="projectId" ColumnName="projectId" />
+                <ScalarProperty Name="taskId" ColumnName="taskId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -179,7 +192,7 @@
             <ResultMapping>
               <ComplexTypeMapping TypeName="ProjectManagerDBModel.GetProjects_Result">
                 <ScalarProperty Name="Project_ID" ColumnName="Project_ID" />
-                <ScalarProperty Name="Project" ColumnName="Project" />
+                <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
                 <ScalarProperty Name="Start_Date" ColumnName="Start_Date" />
                 <ScalarProperty Name="End_Date" ColumnName="End_Date" />
                 <ScalarProperty Name="Priority" ColumnName="Priority" />
@@ -204,25 +217,13 @@
           <FunctionImportMapping FunctionImportName="GetUsers" FunctionName="ProjectManagerDBModel.Store.GetUsers">
             <ResultMapping>
               <ComplexTypeMapping TypeName="ProjectManagerDBModel.GetUsers_Result">
-                <ScalarProperty Name="User_ID" ColumnName="User_ID" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="Employee_Id" ColumnName="Employee_Id" />
+                <ScalarProperty Name="userId" ColumnName="userId" />
+                <ScalarProperty Name="firstName" ColumnName="firstName" />
+                <ScalarProperty Name="lastName" ColumnName="lastName" />
+                <ScalarProperty Name="employeeId" ColumnName="employeeId" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <EntitySetMapping Name="Projects">
-            <EntityTypeMapping TypeName="ProjectManagerDBModel.Project">
-              <MappingFragment StoreEntitySet="Project">
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="Priority" ColumnName="Priority" />
-                <ScalarProperty Name="End_Date" ColumnName="End_Date" />
-                <ScalarProperty Name="Start_Date" ColumnName="Start_Date" />
-                <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
-                <ScalarProperty Name="Project_ID" ColumnName="Project_ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

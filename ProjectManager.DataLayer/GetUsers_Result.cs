@@ -13,9 +13,9 @@ namespace ProjectManager.DataLayer
     
     public partial class GetUsers_Result
     {
-        public int User_ID { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public Nullable<int> Employee_Id { get; set; }
+        public int userId { get; set; }
+        public string firstName { get; set; }
+        public string lastName { get; set; }
+        public Nullable<int> employeeId { get; set; }
     }
 }
