@@ -59,8 +59,8 @@ namespace ProjectManager.ServiceLayer
             task.Start_Date = item.Start_Date;
             task.End_Date = item.End_Date;
             task.Status = item.Status;
-            pbl.AddTask(task);
-            pbl.UpdateUserTaskId(item.User_ID, item.Task_ID);
+            int taskid =pbl.AddTask(task);
+            pbl.UpdateUserTaskId(item.User_ID, taskid);
         }
 
         [Route("api/AddProject")]

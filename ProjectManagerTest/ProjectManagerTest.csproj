@@ -77,12 +77,29 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="UnitTest1.cs" />
+    <Compile Include="ProjectMnagerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ProjectManager.DataLayer\ProjectManager.DataLayer.csproj">
+      <Project>{5e01ce7a-7e44-4ace-9fe7-fbecca22e826}</Project>
+      <Name>ProjectManager.DataLayer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProjectManager.ServiceLayer\ProjectManager.ServiceLayer.csproj">
+      <Project>{73e0291c-87de-4d23-9c4e-5cbb4e57c2bd}</Project>
+      <Name>ProjectManager.ServiceLayer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProjectManger.BusinessLayer\ProjectManger.BusinessLayer.csproj">
+      <Project>{ae4f6e59-58aa-4549-8cb3-fed1170d3f71}</Project>
+      <Name>ProjectManger.BusinessLayer</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

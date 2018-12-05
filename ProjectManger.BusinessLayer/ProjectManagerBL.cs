@@ -56,10 +56,12 @@ namespace ProjectManger.BusinessLayer
         }
         public int AddTask(Task item)
         {
-            int result = -1;
+            int taskid = -1;
+            item.Task_ID = -1;
             pmdb.Tasks.Add(item);
-            result = pmdb.SaveChanges();
-            return result;
+            pmdb.SaveChanges();
+            taskid = item.Task_ID;
+            return taskid;
         }
 
         public int AddUsers(User item)
