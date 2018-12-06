@@ -105,6 +105,8 @@ namespace ProjectManager.ServiceLayer
         public void Delete(int id)
         {
             pbl.DeleteUser(id);
+
+
         }
     }
 }
