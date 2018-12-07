@@ -15,6 +15,20 @@ namespace ProjectManager.ServiceLayer
     {
          ProjectManagerBL pbl = new ProjectManagerBL();
 
+
+
+        [Route("api/GetTaskDetails")]
+        public IEnumerable<GetTaskDetails_Result> GetTaskDetals()
+        {
+            return pbl.GetTaskDetails();
+        }
+
+        [Route("api/GetProjectDetails")]
+        public IEnumerable<GetProjecTask_Result> GetProjectDetails()
+        {
+            return pbl.GetProjectDetails();
+        }
+
         [Route("api/GetTasks")]
         public IEnumerable<GetTasks_Result> GetTasks()
         {

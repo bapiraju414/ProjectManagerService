@@ -87,6 +87,24 @@ namespace ProjectManger.BusinessLayer
             return pmdb.ParentTasks.ToList();
         }
 
+        public List<GetTaskDetails_Result> GetTaskDetails()
+        {
+            List<GetTaskDetails_Result> getTaskResult = new List<GetTaskDetails_Result>();
+
+            getTaskResult = pmdb.GetTaskDetails().ToList();
+
+            return getTaskResult;
+        }
+
+        public List<GetProjecTask_Result> GetProjectDetails()
+        {
+            List<GetProjecTask_Result> getProjectReport= new List<GetProjecTask_Result>();
+
+            getProjectReport = pmdb.GetProjecTask().ToList();
+
+            return getProjectReport;
+        }
+
         public List<GetTasks_Result> GetAllTasks()
         {
             List<GetTasks_Result> getTaskResult = new List<GetTasks_Result>();
@@ -95,6 +113,7 @@ namespace ProjectManger.BusinessLayer
 
             return getTaskResult;
         }
+
 
         public List<GetProjects_Result> GetAllProjects()
         {

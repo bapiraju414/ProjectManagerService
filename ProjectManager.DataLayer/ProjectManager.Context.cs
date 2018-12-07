@@ -46,5 +46,16 @@ namespace ProjectManager.DataLayer
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetUsers_Result>("GetUsers");
         }
+    
+            
+        public virtual ObjectResult<GetTaskDetails_Result> GetTaskDetails()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetTaskDetails_Result>("GetTaskDetails");
+        }
+    
+        public virtual ObjectResult<GetProjecTask_Result> GetProjecTask()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetProjecTask_Result>("GetProjecTask");
+        }
     }
 }
