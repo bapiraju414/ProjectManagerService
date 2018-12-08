@@ -21,7 +21,17 @@ namespace ProjectManger.BusinessLayer
             pmdb = projectManager;
         }
 
-
+        public partial class TaskSet
+        {
+            public int Task_ID { get; set; }
+            public Nullable<int> Parent_ID { get; set; }
+            public Nullable<int> Project_ID { get; set; }
+            public string TaskName { get; set; }
+            public Nullable<System.DateTime> Start_Date { get; set; }
+            public Nullable<System.DateTime> End_Date { get; set; }
+            public Nullable<int> Priority { get; set; }
+            public bool Status { get; set; }
+        }
         public partial class UserSet
         {
             public int userId { get; set; }
@@ -131,6 +141,21 @@ namespace ProjectManger.BusinessLayer
             getUsersResult = pmdb.GetUsers().ToList();
 
             return getUsersResult;
+        }
+
+        public Taskset GetTaskById(int Id)
+        {
+            Taskset taskset = new Taskset();
+            taskset = pmdb.Tasks.Where(x => x.Task_ID == Id).Select(t => new Taskset()
+            {
+                Task_ID = t.Task_ID,
+                TaskName = t.TaskName,
+                Priority = t.Priority,
+                Start_Date = t.Start_Date,
+                End_Date = t.End_Date
+
+            }).FirstOrDefault();
+            return taskset;
         }
 
         public UserSet GetUserById(int Id)
