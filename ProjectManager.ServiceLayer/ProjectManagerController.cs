@@ -61,6 +61,14 @@ namespace ProjectManager.ServiceLayer
 
         }
 
+        [Route("api/GetProjectById/{id:int}")]
+        public Projectset GetProjectById(int id)
+        {
+
+            return pbl.GetProjectById(id); ;
+
+        }
+
         [Route("api/GetParentTask")]
         public IEnumerable<ParentTask> GetParentTask()
         {
@@ -110,7 +118,7 @@ namespace ProjectManager.ServiceLayer
         }
 
         [Route("api/UpdateProject")]
-        public void Put([FromBody]Project item)
+        public void Put([FromBody]Projectset item)
         {
             pbl.UpdateProject(item);
         }

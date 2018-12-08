@@ -50,6 +50,7 @@ namespace ProjectManger.BusinessLayer
             public Nullable<int> Priority { get; set; }
             public bool Status { get; set; }
             public int User_ID { get; set; }
+            public string UserName { get; set; }
         }
 
         public partial class Taskset
@@ -143,6 +144,22 @@ namespace ProjectManger.BusinessLayer
             return getUsersResult;
         }
 
+        public Projectset GetProjectById(int Id)
+        {
+            Projectset projectset = new Projectset();
+            var user = pmdb.Users.Where(x => x.projectId == Id).FirstOrDefault();
+            projectset = pmdb.Projects.Where(x => x.Project_ID == Id).Select(t => new Projectset()
+            {
+                Project_ID = t.Project_ID,
+                ProjectName = t.ProjectName,
+                Priority = t.Priority,
+                Start_Date = t.Start_Date,
+                End_Date = t.End_Date,
+                UserName = user.firstName
+            }).FirstOrDefault();
+            return projectset;
+        }
+
         public Taskset GetTaskById(int Id)
         {
             Taskset taskset = new Taskset();
@@ -230,7 +247,7 @@ namespace ProjectManger.BusinessLayer
             return result;
         }
 
-        public int UpdateProject(Project Project)
+        public int UpdateProject(Projectset Project)
         {
 
             int result = -1;
@@ -244,6 +261,7 @@ namespace ProjectManger.BusinessLayer
                 project.Status = Project.Status;
                 result = pmdb.SaveChanges();
             }
+            UpdateUserProjectId(Project.User_ID, Project.Project_ID);
             return result;
         }
 

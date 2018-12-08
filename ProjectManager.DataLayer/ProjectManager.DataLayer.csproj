@@ -52,6 +52,9 @@
     <Compile Include="GetProjecTask_Result.cs">
       <DependentUpon>ProjectManager.tt</DependentUpon>
     </Compile>
+    <Compile Include="GetProjectReport_Result.cs">
+      <DependentUpon>ProjectManager.tt</DependentUpon>
+    </Compile>
     <Compile Include="GetProjects_Result.cs">
       <DependentUpon>ProjectManager.tt</DependentUpon>
     </Compile>
