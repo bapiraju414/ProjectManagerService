@@ -175,6 +175,12 @@ namespace ProjectManger.BusinessLayer
             return taskset;
         }
 
+        public List<GetTasks_Result> GetTaskByProjectId(int Id)
+        {
+            List<GetTasks_Result> getTaskResult = new List<GetTasks_Result>();
+            getTaskResult = pmdb.GetTasks().Where(x => x.Project_ID == Id).ToList();
+            return getTaskResult;          
+        } 
         public UserSet GetUserById(int Id)
         {
             UserSet userset = new UserSet();

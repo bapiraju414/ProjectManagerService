@@ -41,6 +41,12 @@ namespace ProjectManager.ServiceLayer
             return pbl.GetTaskById(id); 
         }
 
+        [Route("api/GetTasksByProjectId/{id:int}")]
+        public IEnumerable<GetTasks_Result> GetTasksByProjectId(int id)
+        {
+            return pbl.GetTaskByProjectId(id);
+        }
+
         [Route("api/GetProjects")]
         public IEnumerable<GetProjects_Result> GetProjects()
         {
