@@ -15,7 +15,11 @@ namespace ProjectManager.ServiceLayer
     {
          ProjectManagerBL pbl = new ProjectManagerBL();
 
-
+        [Route("api/GetName")]
+        public string GetName()
+        {
+            return "Bapiraju";
+        }
 
         [Route("api/GetTaskDetails")]
         public IEnumerable<GetTaskDetails_Result> GetTaskDetals()
@@ -32,7 +36,8 @@ namespace ProjectManager.ServiceLayer
         [Route("api/GetTasks")]
         public IEnumerable<GetTasks_Result> GetTasks()
         {
-            return pbl.GetAllTasks();
+               return   pbl.GetAllTasks();         
+           
         }
 
         [Route("api/GetTasksById/{id:int}")]

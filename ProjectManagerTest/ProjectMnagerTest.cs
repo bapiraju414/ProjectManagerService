@@ -9,15 +9,15 @@ using System.Text;
 using ProjectManager.DataLayer;
 using ProjectManager.ServiceLayer;
 using ProjectManger.BusinessLayer;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace ProjectManagerTest
 {
-    [TestClass]
+    [TestFixture]
     public class ProjectMnagerTest
     {
        
-        [TestMethod]
+        [Test]
         public void GetParentTasksTest_WithoutID()
         {
             Mock<ProjectManagerDBEntities> mockContext = MockparentTask();
@@ -27,7 +27,7 @@ namespace ProjectManagerTest
             Assert.IsTrue(tasks.Count > 0);
         }
 
-        [TestMethod]
+        [Test]
         public void GetUserTestBL()
         {
             Mock<ProjectManagerDBEntities> mockContext = MockUserSP();
@@ -44,7 +44,7 @@ namespace ProjectManagerTest
             }
         }
 
-        [TestMethod]
+        [Test]
         public void GetTaskTestBL()
         {
             Mock<ProjectManagerDBEntities> mockContext = MockTasksSP();
@@ -61,7 +61,7 @@ namespace ProjectManagerTest
             }
         }
 
-        [TestMethod]
+        [Test]
         public void GetProjectTestBL()
         {
             Mock<ProjectManagerDBEntities> mockContext = MockProjectsSP();
@@ -78,7 +78,42 @@ namespace ProjectManagerTest
             }
         }
 
-        [TestMethod]
+        [Test]
+        public void AddUserTest()
+        {
+            Mock<ProjectManagerDBEntities> mockContext = MockUserList();
+            var projectManagerBL = new ProjectManagerBL(mockContext.Object);
+            User model = new User()
+            {
+                userId = 1,
+                firstName = "gegerg",
+                lastName = "asdqad",
+                employeeId = 565
+            };
+            int result = projectManagerBL.AddUsers(model);
+
+            Assert.IsTrue(result == 0);
+        }
+
+        [Test]
+        public void UpdateUserTest()
+        {
+            Mock<ProjectManagerDBEntities> mockContext = MockUserList();
+            var projectManagerBL = new ProjectManagerBL(mockContext.Object);
+            User model = new User()
+            {
+                userId = 1,
+                firstName = "gegerg",
+                lastName = "asdqad",
+                employeeId = 565
+            };
+            int result = projectManagerBL.UpdateUser(model);
+
+            Assert.IsTrue(result == 0);
+        }
+
+
+        [Test]
         public void AddTaskTest()
         {
             Mock<ProjectManagerDBEntities> mockContext = MockDataSetList();
@@ -97,7 +132,7 @@ namespace ProjectManagerTest
             Assert.IsTrue(result == -1);
         }
 
-        [TestMethod]
+        [Test]
         public void UpdateTaskTest()
         {
             Mock<ProjectManagerDBEntities> mockContext = MockDataSetList();
@@ -116,6 +151,29 @@ namespace ProjectManagerTest
             Assert.IsTrue(result == 0);
         }
 
+        private static Mock<ProjectManagerDBEntities> MockUserList()
+        {
+            var data = new List<User>()
+            {
+               new User()
+                {
+                  userId=1,
+                  firstName="gegerg",
+                  lastName="asdqad",
+                  employeeId=565
+                }
+            }.AsQueryable();
+
+            var mockset = new Mock<DbSet<User>>();
+            mockset.As<IQueryable<User>>().Setup(m => m.Provider).Returns(data.Provider);
+            mockset.As<IQueryable<User>>().Setup(m => m.Expression).Returns(data.Expression);
+            mockset.As<IQueryable<User>>().Setup(m => m.ElementType).Returns(data.ElementType);
+            mockset.As<IQueryable<User>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
+            var mockContext = new Mock<ProjectManagerDBEntities>();
+            mockContext.Setup(m => m.Users).Returns(mockset.Object);
+
+            return mockContext;
+        }
         private static Mock<ProjectManagerDBEntities> MockDataSetList()
         {
             var data = new List<Task>()

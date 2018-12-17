@@ -14,6 +14,7 @@ namespace ProjectManger.BusinessLayer
         public ProjectManagerBL()
         {
             pmdb = new ProjectManagerDBEntities();
+           
         }
 
         public ProjectManagerBL(ProjectManagerDBEntities projectManager)
